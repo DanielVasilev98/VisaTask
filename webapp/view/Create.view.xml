@@ -1,0 +1,4 @@
+<mvc:View xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="home.kpmg.VisaTask.controller.Create"></mvc:View>
+	<semantic:MasterPage id="Create" navButtonPress="onNavBack" showNavButton="true" title="{masterView>/title}">
+	</semantic:MasterPage>
+</mvc:View>
