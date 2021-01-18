@@ -1,4 +1,60 @@
-<mvc:View xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="home.kpmg.VisaTask.controller.Create"></mvc:View>
-	<semantic:MasterPage id="Create" navButtonPress="onNavBack" showNavButton="true" title="{masterView>/title}">
+<mvc:View xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="home.kpmg.VisaTask.controller.Create"
+	xmlns:f="sap.ui.layout.form">
+	<semantic:MasterPage navButtonPress="onNavBack" showNavButton="true" title="{masterView>/title}">
+		<f:SimpleForm minWidth="1024" title="{i18n>personalId} {EmployeeInfo>/PersonalID}" labelSpanL="3" labelSpanM="3"
+			layout="ResponsiveGridLayout" maxContainerCols="2" emptySpanL="2" emptySpanM="2" editable="true">
+			<f:content>
+				<Label text="{i18n>employeeName}"/>
+				<Text text="{EmployeeInfo>/PersonalName}"/>
+				<Label text="{i18n>managerName}"/>
+				<Text text="{EmployeeInfo>/Manager}"/>
+				<Label text="{i18n>departmentName}"/>
+				<Text text="{EmployeeInfo>/Department}"/>
+				<!--<ObjectAttribute title="{i18n>employeeName}" text="{EmployeeInfo>/PersonalName}"/>-->
+				<!--<ObjectAttribute title="{i18n>managerName}" text="{EmployeeInfo>/Manager}"/>-->
+				<!--<ObjectAttribute title="{i18n>departmentName}" text="{EmployeeInfo>/Department}"/>-->
+			</f:content>
+		</f:SimpleForm>
+		<f:SimpleForm minWidth="1024" title="Visa Details" labelSpanL="3" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2"
+			emptySpanL="2" emptySpanM="2" editable="true">
+			<f:content>
+				<Label text="{i18n>VisaType}"/>
+				<ComboBox>
+					<!--<core:Item/>-->
+				</ComboBox>
+				<Label text="{i18n>RequestReason}"/>
+				<Input id="productInput"/>
+				<Label text="{i18n>Paid}"/>
+				<RadioButtonGroup id="rbg4">
+					<RadioButton id="RB4-1" text="Yes"/>
+					<RadioButton id="RB4-2" text="No"/>
+				</RadioButtonGroup>
+				<Label text="{i18n>PaymentAmount} "/>
+				<Input id="amount"/>
+				<Label text="{i18n>Status}"/>
+				<Text text="{path:'Status', formatter:'.formatter.Status'}"/>
+				<Label text="{i18n>TimePeriod}"/>
+				<ComboBox>
+					<!--<core:Item/>-->
+				</ComboBox>
+				<Label text="{i18n>departureDate}"/>
+				<DatePicker id="DP1" change="handleChange" class="sapUiSmallMarginBottom"/>
+				<Label text="{i18n>returnDate}"/>
+				<DatePicker id="DP2" change="handleChange" class="sapUiSmallMarginBottom"/>
+			</f:content>
+		</f:SimpleForm>
+		<semantic:content>
+			<Panel class="sapFSemanticPageAlignContent" width="auto" headerText="Attachments(Please upload)">
+				<content>
+					<UploadCollection id="UploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="true" sameFilenameAllowed="true"
+						instantUpload="false" noDataDescription="Drop files or use the &quot;Add&quot; button to keep files ready for upload" change="onChange"
+						fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
+						uploadComplete="onUploadComplete" beforeUploadStarts="onBeforeUploadStarts"/>
+				</content>
+			</Panel>
+		</semantic:content>
+		<semantic:customFooterContent>
+			<Button text="Save" press="onSave" visible="{EmployeeInfo>/enabled}"/>
+		</semantic:customFooterContent>
 	</semantic:MasterPage>
 </mvc:View>

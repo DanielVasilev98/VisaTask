@@ -103,10 +103,9 @@
 					]
 				},
 				{
-					"pattern": "VisaRequestSet/",
+					"pattern": "Create",
 					"name": "Create",
 					"target": [
-						"master",
 						"Create"
 					]
 				}
@@ -133,9 +132,10 @@
 					"viewId": "notFound"
 				},
 				"Create": {
-					"viewType": "XML",
 					"viewId": "create",
-					"viewName": "Create"
+					"viewName": "Create",
+					"viewLevel": 1,
+					"controlAggregation": "midColumnPages"
 				}
 			}
 		}

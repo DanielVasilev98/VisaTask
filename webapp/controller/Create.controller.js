@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	"sap/ui/core/routing/History"
+], function (Controller, History) {
 	"use strict";
 
 	return Controller.extend("home.kpmg.VisaTask.controller.Create", {
@@ -12,6 +13,15 @@ sap.ui.define([
 		 */
 		onInit: function () {
 
+		},
+		onNavBack : function() {
+			var sPreviousHash = History.getInstance().getPreviousHash(),
+				oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+
+			if (sPreviousHash !== undefined || !oCrossAppNavigator.isInitialNavigation()) {
+				// eslint-disable-next-line sap-no-history-manipulation
+				history.go(-1);
+			}
 		}
 
 		/**

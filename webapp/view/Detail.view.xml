@@ -66,15 +66,20 @@
 				</f:content>
 			</f:SimpleForm>
 			<!--</Panel>-->
-			<!--<Panel class="sapFSemanticPageAlignContent" width="auto" headerText="Attachment(Please upload)">-->
-			<!--	<content>-->
-			<!--		<UploadCollection id="UploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="true" sameFilenameAllowed="true"-->
-			<!--			instantUpload="false" noDataDescription="Drop files or use the &quot;Add&quot; button to keep files ready for upload" change="onChange"-->
-			<!--			fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"-->
-			<!--			uploadComplete="onUploadComplete" beforeUploadStarts="onBeforeUploadStarts"/>-->
-			<!--		<Button id="Button" text="Upload Now" press="onStartUpload"/>-->
-			<!--	</content>-->
-			<!--</Panel>-->
+			<Panel class="sapFSemanticPageAlignContent" width="auto" headerText="Attachments">
+				<content>
+					<UploadCollection id="UploadCollection" uploadEnabled="false" maximumFilenameLength="55" maximumFileSize="10" multiple="true"
+						sameFilenameAllowed="true" instantUpload="false"
+						noDataDescription="Drop files or use the &quot;Add&quot; button to keep files ready for upload" change="onChange"
+						fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
+						uploadComplete="onUploadComplete" beforeUploadStarts="onBeforeUploadStarts" items="{ path: '/AttachmentSet', templateShareable: false }">
+						<items>
+							<UploadCollectionItem enableEdit="false" enableDelete="false" visibleDelete="false" visibleEdit="false" documentId="{AttachmentID}"
+								fileName="{Name}" mimeType="{MimeType}"></UploadCollectionItem>
+						</items>
+					</UploadCollection>
+				</content>
+			</Panel>
 			<!--</Panel>-->
 		</semantic:content>
 		<semantic:customFooterContent>
