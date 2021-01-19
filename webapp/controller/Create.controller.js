@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/core/routing/History"
-], function (Controller, History) {
+	"sap/ui/core/routing/History",
+	"sap/ui/model/json/JSONModel"
+], function (Controller, History, JSONModel) {
 	"use strict";
 
 	return Controller.extend("home.kpmg.VisaTask.controller.Create", {
@@ -12,9 +13,20 @@ sap.ui.define([
 		 * @memberOf home.kpmg.VisaTask.view.Create
 		 */
 		onInit: function () {
+			var jsData = {
+				VisaType:"",
+				RequestReason:"",
+				Paid:-1,
+				PaymentAmount:"",
+				TimePeriod:"",
+				DepDate:"",
+				ReturnDate:""
+			};
 
+			var jsModel = new JSONModel(jsData);
+			this.getView().setModel(jsModel,"createView");
 		},
-		onNavBack : function() {
+		onNavBack: function () {
 			var sPreviousHash = History.getInstance().getPreviousHash(),
 				oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
 
@@ -22,7 +34,7 @@ sap.ui.define([
 				// eslint-disable-next-line sap-no-history-manipulation
 				history.go(-1);
 			}
-		}
+		},
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -48,7 +60,21 @@ sap.ui.define([
 		 */
 		//	onExit: function() {
 		//
-		//	}
+		//	},
+		onSave: function () {
+			var oModel = this.getView().getModel();
+			jQuery.sap.require("sap.ui.commons.MessageBox");
+			
+			oModel.create('/VisaRequestSet', jsModel, null, function () {
+				sap.ui.commons.MessageBox.show(
+					sap.ui.commons.MessageBox.alert("Success!")
+				);
+			}, function () {
+				sap.ui.commons.MessageBox.alert("Error!");
+			});
+			// oModel.create('/VisaRequestSet', jsModel, {method: "POST"});
+			debugger;
+		}
 
 	});
 

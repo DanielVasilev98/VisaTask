@@ -1,5 +1,5 @@
 <mvc:View xmlns="sap.m" xmlns:semantic="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" controllerName="home.kpmg.VisaTask.controller.Create"
-	xmlns:f="sap.ui.layout.form">
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
 	<semantic:MasterPage navButtonPress="onNavBack" showNavButton="true" title="{masterView>/title}">
 		<f:SimpleForm minWidth="1024" title="{i18n>personalId} {EmployeeInfo>/PersonalID}" labelSpanL="3" labelSpanM="3"
 			layout="ResponsiveGridLayout" maxContainerCols="2" emptySpanL="2" emptySpanM="2" editable="true">
@@ -19,28 +19,27 @@
 			emptySpanL="2" emptySpanM="2" editable="true">
 			<f:content>
 				<Label text="{i18n>VisaType}"/>
-				<ComboBox>
-					<!--<core:Item/>-->
+				<ComboBox items="{path: 'constant>/VisaType'}" selectedKey="{createView>/VisaType}">
+					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>RequestReason}"/>
-				<Input id="productInput"/>
+				<Input id="productInput" value="{createView>/RequestReason}"/>
 				<Label text="{i18n>Paid}"/>
-				<RadioButtonGroup id="rbg4">
-					<RadioButton id="RB4-1" text="Yes"/>
-					<RadioButton id="RB4-2" text="No"/>
+				<RadioButtonGroup buttons="{constant>/Paid}" width="500px" selectedIndex="{createView>/Paid}" class="sapUiMediumMarginBottom">
+					<RadioButton id="inputAmount" text="{constant>Text}" selected="{constant>RequestType}" />
 				</RadioButtonGroup>
 				<Label text="{i18n>PaymentAmount} "/>
-				<Input id="amount"/>
-				<Label text="{i18n>Status}"/>
-				<Text text="{path:'Status', formatter:'.formatter.Status'}"/>
+				<Input id="amount" value="{createView>/PaymentAmount}"/>
+				<!--<Label text="{i18n>Status}"/>-->
+				<!--<Text text="{path:'Status', formatter:'.formatter.Status'}"/>-->
 				<Label text="{i18n>TimePeriod}"/>
-				<ComboBox>
-					<!--<core:Item/>-->
+				<ComboBox items="{path: 'constant>/TimePeriod'}" selectedKey="{createView>/TimePeriod}">
+					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>departureDate}"/>
-				<DatePicker id="DP1" change="handleChange" class="sapUiSmallMarginBottom"/>
+				<DatePicker id="DP1" change="handleChange" value="{createView>/DepDate}" class="sapUiSmallMarginBottom"/>
 				<Label text="{i18n>returnDate}"/>
-				<DatePicker id="DP2" change="handleChange" class="sapUiSmallMarginBottom"/>
+				<DatePicker id="DP2" change="handleChange1" value="{createView>/ReturnDate}" class="sapUiSmallMarginBottom"/>
 			</f:content>
 		</f:SimpleForm>
 		<semantic:content>
