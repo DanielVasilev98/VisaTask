@@ -23,13 +23,13 @@
 					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>RequestReason}"/>
-				<Input id="productInput" value="{createView>/RequestReason}"/>
+				<Input id="productInput" value="{createView>/ReqReason}"/>
 				<Label text="{i18n>Paid}"/>
 				<RadioButtonGroup buttons="{constant>/Paid}" width="500px" selectedIndex="{createView>/Paid}" class="sapUiMediumMarginBottom">
-					<RadioButton id="inputAmount" text="{constant>Text}" selected="{constant>RequestType}" />
+					<RadioButton id="inputAmount" text="{constant>Text}" selected="{constant>RequestType}"/>
 				</RadioButtonGroup>
 				<Label text="{i18n>PaymentAmount} "/>
-				<Input id="amount" value="{createView>/PaymentAmount}"/>
+				<Input id="amount" value="{createView>/Payment}"/>
 				<!--<Label text="{i18n>Status}"/>-->
 				<!--<Text text="{path:'Status', formatter:'.formatter.Status'}"/>-->
 				<Label text="{i18n>TimePeriod}"/>
@@ -37,9 +37,10 @@
 					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>departureDate}"/>
-				<DatePicker id="DP1" change="handleChange" value="{createView>/DepDate}" class="sapUiSmallMarginBottom"/>
+				<DatePicker id="DP1" change="handleChange" value="{createView>/DepTime}"
+					class="sapUiSmallMarginBottom"/>
 				<Label text="{i18n>returnDate}"/>
-				<DatePicker id="DP2" change="handleChange1" value="{createView>/ReturnDate}" class="sapUiSmallMarginBottom"/>
+				<DatePicker id="DP2" change="handleChange1" value="{createView>/ReturnTime}" class="sapUiSmallMarginBottom"/>
 			</f:content>
 		</f:SimpleForm>
 		<semantic:content>

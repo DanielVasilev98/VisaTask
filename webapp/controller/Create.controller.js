@@ -13,18 +13,20 @@ sap.ui.define([
 		 * @memberOf home.kpmg.VisaTask.view.Create
 		 */
 		onInit: function () {
+
 			var jsData = {
-				VisaType:"",
-				RequestReason:"",
-				Paid:-1,
-				PaymentAmount:"",
-				TimePeriod:"",
-				DepDate:"",
-				ReturnDate:""
+				VisaType: "",
+				ReqReason: "",
+				Paid: -1,
+				Status: "1",
+				Payment: "",
+				TimePeriod: "",
+				DepTime: "",
+				ReturnTime: ""
 			};
 
 			var jsModel = new JSONModel(jsData);
-			this.getView().setModel(jsModel,"createView");
+			this.getView().setModel(jsModel, "createView");
 		},
 		onNavBack: function () {
 			var sPreviousHash = History.getInstance().getPreviousHash(),
@@ -63,17 +65,34 @@ sap.ui.define([
 		//	},
 		onSave: function () {
 			var oModel = this.getView().getModel();
-			jQuery.sap.require("sap.ui.commons.MessageBox");
-			
-			oModel.create('/VisaRequestSet', jsModel, null, function () {
-				sap.ui.commons.MessageBox.show(
-					sap.ui.commons.MessageBox.alert("Success!")
-				);
-			}, function () {
-				sap.ui.commons.MessageBox.alert("Error!");
+
+			var model = this.getView().getModel("createView");
+
+			var data = model.getData();
+
+			if (data.Paid === 0) {
+				data.Paid = "X";
+			} else {
+				data.Paid = "";
+			}
+
+			var dDate = data.DepTime;
+			var rDate = data.ReturnTime;
+			var depDate = new Date(dDate);
+			var retDate = new Date(rDate);
+			var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+				pattern: "yyyy-MM-ddTHH:mm:ss"
 			});
+			var dDateFormatted = dateFormat.format(depDate);
+			var rDateFormatted = dateFormat.format(retDate);
+			data.DepTime = dDateFormatted;
+			data.ReturnTime = rDateFormatted;
+
+			jQuery.sap.require("sap.ui.commons.MessageBox");
+
+			oModel.create('/VisaRequestSet', data, {method: "POST"});
 			// oModel.create('/VisaRequestSet', jsModel, {method: "POST"});
-			debugger;
+
 		}
 
 	});
