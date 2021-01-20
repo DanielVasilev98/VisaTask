@@ -47,6 +47,10 @@
 			<f:SimpleForm minWidth="1024" labelSpanL="3" title="Visa Details" labelSpanM="3" layout="ResponsiveGridLayout" maxContainerCols="2"
 				emptySpanL="2" emptySpanM="2" editable="true">
 				<f:content>
+					<Label text="Personal ID"/>
+					<Text id="personalId" text="{PersonalID}"/>
+					<Label text="Visa ID"/>
+					<Text id="visaId" text="{VisaID}"/>
 					<Label text="{i18n>VisaType}"/>
 					<Text text="{path:'VisaType', formatter:'.formatter.VisaType'}"/>
 					<Label text="{i18n>RequestReason}"/>
@@ -83,6 +87,7 @@
 			<!--</Panel>-->
 		</semantic:content>
 		<semantic:customFooterContent>
+			<Button text="Delete" icon="sap-icon://delete" press="onDelete" visible="{EmployeeInfo>/enabled}"/>
 			<Button text="Edit" icon="sap-icon://edit" press="onEdit" visible="{EmployeeInfo>/enabled}"/>
 		</semantic:customFooterContent>
 	</semantic:MasterPage>

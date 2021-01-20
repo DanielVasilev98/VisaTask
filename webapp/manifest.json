@@ -94,19 +94,35 @@
 				},
 				"async": true
 			},
-			"routes": [{
-				"pattern": "",
-				"name": "master",
-				"target": "master"
-			}, {
-				"pattern": "VisaRequestSet/{PersonalID}/{VisaID}",
-				"name": "detail",
-				"target": ["master", "detail"]
-			}, {
-				"pattern": "Create",
-				"name": "Create",
-				"target": ["Create"]
-			}],
+			"routes": [
+				{
+					"pattern": "",
+					"name": "master",
+					"target": "master"
+				},
+				{
+					"pattern": "VisaRequestSet/{PersonalID}/{VisaID}",
+					"name": "detail",
+					"target": [
+						"master",
+						"detail"
+					]
+				},
+				{
+					"pattern": "Create",
+					"name": "Create",
+					"target": [
+						"Create"
+					]
+				},
+				{
+					"pattern": "Edit/{PersonalID}/{VisaID}",
+					"name": "Edit",
+					"target": [
+						"Edit"
+					]
+				}
+			],
 			"targets": {
 				"master": {
 					"viewName": "Master",
@@ -132,6 +148,11 @@
 					"viewId": "create",
 					"viewName": "Create",
 					"viewLevel": 1,
+					"controlAggregation": "midColumnPages"
+				},
+				"Edit": {
+					"viewId": "edit",
+					"viewName": "Edit",
 					"controlAggregation": "midColumnPages"
 				}
 			}
