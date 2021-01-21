@@ -203,7 +203,7 @@ sap.ui.define([
 			var oView = this.getView(),
 				oDataModel = oView.getModel();
 			var that = this;
-			MessageBox.show(this.getMessage("areYouSureYouWantToWithdraw"), {
+			MessageBox.show(this.getMessage("deleteVisaMessage"), {
 				icon: sap.m.MessageBox.Icon.QUESTION,
 				title: "",
 				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -269,6 +269,11 @@ sap.ui.define([
         },
         
         onEdit: function() {
+        	// var sComponentId = sap.ui.core.Component.getOwnerIdFor(this.oView),
+         //       oComponent = sap.ui.component(sComponentId);
+         //   var master = oComponent.getRouter().getView("home.kpmg.VisaTask.view.Detail").getBindingContext().getPath();
+        	// var delurl = this.getView().getBindingContext().getObject();
+            // debugger;
         	var bReplace = !Device.system.phone;
 			// set the layout property of FCL control to show two columns
 			var oView = this.getView();
