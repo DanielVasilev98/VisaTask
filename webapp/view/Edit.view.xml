@@ -1,6 +1,6 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:semantic="sap.m.semantic" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 	controllerName="home.kpmg.VisaTask.controller.Edit" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:f="sap.ui.layout.form">
-	<semantic:MasterPage navButtonPress="onNavBack" showNavButton="true" title="{masterView>/title}">
+	<semantic:MasterPage navButtonPress="onBack" showNavButton="true" title="{masterView>/title}">
 		<f:SimpleForm minWidth="1024" title="{i18n>personalId} {EmployeeInfo>/PersonalID}" labelSpanL="3" labelSpanM="3"
 			layout="ResponsiveGridLayout" maxContainerCols="2" emptySpanL="2" emptySpanM="2" editable="true">
 			<f:content>
@@ -19,19 +19,19 @@
 			emptySpanL="2" emptySpanM="2" editable="true">
 			<f:content>
 				<Label text="{i18n>VisaType}"/>
-				<ComboBox items="{path: 'constant>/VisaType'}" value="{= ${VisaType} === 'S' ? 'Single' : 'Multiple'}">
+				<ComboBox id="VisaTypeInput" items="{path: 'constant>/VisaType'}" value="{= ${VisaType} === 'S' ? 'Single' : 'Multiple'}">
 					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>RequestReason}"/>
 				<Input id="productInput" value="{ReqReason}"/>
 				<Label text="{i18n>Paid}"/>
-				<RadioButtonGroup buttons="{constant>/Paid}" width="500px" selectedIndex="{= ${Paid} === 'X' ? 0 : 1}" class="sapUiMediumMarginBottom">
+				<RadioButtonGroup id="paidBtn" buttons="{constant>/Paid}" width="500px" selectedIndex="{= ${Paid} === 'X' ? 0 : 1}" class="sapUiMediumMarginBottom">
 					<RadioButton id="inputAmount" text="{constant>Text}" />
 				</RadioButtonGroup>
 				<Label text="{i18n>PaymentAmount} "/>
 				<Input id="amount" value="{Payment}"/>
 				<Label text="{i18n>TimePeriod}"/>
-				<ComboBox items="{path: 'constant>/TimePeriod'}" selectedKey="{TimePeriod}">
+				<ComboBox id="timePeriod" items="{path: 'constant>/TimePeriod'}" selectedKey="{TimePeriod}">
 					<core:Item key="{constant>key}" text="{constant>value}"/>
 				</ComboBox>
 				<Label text="{i18n>departureDate}"/>
