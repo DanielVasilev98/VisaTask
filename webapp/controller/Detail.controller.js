@@ -88,12 +88,44 @@ sap.ui.define([
 			var visaId = oEvent.getParameter("arguments").VisaID;
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getModel().metadataLoaded().then(function () {
+				debugger;
 				var sObjectPath = this.getModel().createKey("VisaRequestSet", {
 					PersonalID: personalId,
 					VisaID: visaId
 				});
 				this._bindView("/" + sObjectPath);
+				this.callValueHelps("/" + sObjectPath);
 			}.bind(this));
+		},
+		callValueHelps: function (contextPath) {
+
+			var oModel = this.getView().getModel();
+			var mParameters = {
+				// urlParameters: {
+				// 	"$expand": "VisaToAttachments"
+				// },
+
+				success: function (oData) {
+					var AttachmentsJSON = null;
+					// AttachmentsJSON = oData.VisaToAttachments;
+					AttachmentsJSON = oData;
+					for (var i = 0; i < AttachmentsJSON.results.length; i++) {
+						if (!AttachmentsJSON.results[i].Url) {
+							AttachmentsJSON.results[i].Url = AttachmentsJSON.results[i].__metadata.media_src;
+						}
+					}
+					var oAttachmentsModel = new sap.ui.model.json.JSONModel(AttachmentsJSON);
+					this.getView().setModel(oAttachmentsModel, "Attachment");
+				}.bind(this),
+
+				error: function (oError) {
+
+					jQuery.sap.log.info("Odata Error occured");
+
+				}.bind(this)
+
+			};
+			oModel.read(contextPath+'/AttachmentSet', mParameters);
 		},
 
 		/**
@@ -103,7 +135,7 @@ sap.ui.define([
 		 * @param {string} sObjectPath path to the object to be bound to the view.
 		 * @private
 		 */
-		_bindView: function (sObjectPath) {
+			_bindView: function (sObjectPath) {
 			// Set busy indicator during view binding
 			var oViewModel = this.getModel("detailView");
 
@@ -247,42 +279,42 @@ sap.ui.define([
 			// });
 
 		},
-		setFirstItem: function() {
-            var bReplace = !Device.system.phone;
-            if (this.getList().getItems().length > 0) {
-                var firstItem = this.getList().getItems()[0];
-                this.getList().setSelectedItem(firstItem, true);
-                this.getList().setSelectedItem(firstItem);
-                this.getRouter().navTo("detail", {
-                    PersonalID: firstItem.getBindingContext().sPath.split("'")[1],
-                    VisaID: firstItem.getBindingContext().sPath.split("'")[3]
-                }, bReplace);
-            }
- 
-        },
-        getList: function() {
-            var sComponentId = sap.ui.core.Component.getOwnerIdFor(this.oView),
-                oComponent = sap.ui.component(sComponentId);
-            var master = oComponent.getRouter().getView("home.kpmg.VisaTask.view.Master");
-            var list = master.byId("list");
-            return list;
-        },
-        
-        onEdit: function() {
-        	// var sComponentId = sap.ui.core.Component.getOwnerIdFor(this.oView),
-         //       oComponent = sap.ui.component(sComponentId);
-         //   var master = oComponent.getRouter().getView("home.kpmg.VisaTask.view.Detail").getBindingContext().getPath();
-        	// var delurl = this.getView().getBindingContext().getObject();
-            // debugger;
-        	var bReplace = !Device.system.phone;
+		setFirstItem: function () {
+			var bReplace = !Device.system.phone;
+			if (this.getList().getItems().length > 0) {
+				var firstItem = this.getList().getItems()[0];
+				this.getList().setSelectedItem(firstItem, true);
+				this.getList().setSelectedItem(firstItem);
+				this.getRouter().navTo("detail", {
+					PersonalID: firstItem.getBindingContext().sPath.split("'")[1],
+					VisaID: firstItem.getBindingContext().sPath.split("'")[3]
+				}, bReplace);
+			}
+
+		},
+		getList: function () {
+			var sComponentId = sap.ui.core.Component.getOwnerIdFor(this.oView),
+				oComponent = sap.ui.component(sComponentId);
+			var master = oComponent.getRouter().getView("home.kpmg.VisaTask.view.Master");
+			var list = master.byId("list");
+			return list;
+		},
+
+		onEdit: function () {
+			// var sComponentId = sap.ui.core.Component.getOwnerIdFor(this.oView),
+			//       oComponent = sap.ui.component(sComponentId);
+			//   var master = oComponent.getRouter().getView("home.kpmg.VisaTask.view.Detail").getBindingContext().getPath();
+			// var delurl = this.getView().getBindingContext().getObject();
+			// debugger;
+			var bReplace = !Device.system.phone;
 			// set the layout property of FCL control to show two columns
 			var oView = this.getView();
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getRouter().navTo("Edit", {
-				PersonalID : oView.getBindingContext().getProperty("PersonalID"),
-				VisaID : oView.getBindingContext().getProperty("VisaID")
+				PersonalID: oView.getBindingContext().getProperty("PersonalID"),
+				VisaID: oView.getBindingContext().getProperty("VisaID")
 			}, bReplace);
-        }
+		}
 	});
 
 });

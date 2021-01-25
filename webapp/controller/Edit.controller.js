@@ -1,3 +1,4 @@
+jQuery.sap.require("home.kpmg.VisaTask.model.FileUploadHelper");
 sap.ui.define([
 	"./BaseController",
 	"sap/ui/core/routing/History",
@@ -31,8 +32,14 @@ sap.ui.define([
 
 		},
 		_onObjectMatched: function (oEvent) {
+			var view = this.getView();
+			this.oFileUploadControl = this.getView().byId("oUploadCollection");
+			var context = new sap.ui.model.Context(view.getModel(), "/" + oEvent.getParameter("arguments").contextPath);
+            this.oContext = context;
 			var personalId = oEvent.getParameter("arguments").PersonalID;
 			var visaId = oEvent.getParameter("arguments").VisaID;
+			this.sVisaRequest = oEvent.getParameter("arguments").VisaID;
+            this.sEmployeeId = oEvent.getParameter("arguments").PersonalID;
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getModel().metadataLoaded().then(function () {
 				var sObjectPath = this.getModel().createKey("VisaRequestSet", {
@@ -40,7 +47,35 @@ sap.ui.define([
 					VisaID: visaId
 				});
 				this._bindView("/" + sObjectPath);
+				this.callValueHelps("/" + sObjectPath);
 			}.bind(this));
+		},
+		callValueHelps: function (contextPath) {
+
+			var oModel = this.getView().getModel();
+			var mParameters = {
+
+				success: function (oData) {
+
+					var AttachmentsJSON = null;
+					AttachmentsJSON = oData;
+					for (var i = 0; i < AttachmentsJSON.results.length; i++) {
+						if (!AttachmentsJSON.results[i].Url) {
+							AttachmentsJSON.results[i].Url = AttachmentsJSON.results[i].__metadata.media_src;
+						}
+					}
+					var oAttachmentsModel = new sap.ui.model.json.JSONModel(AttachmentsJSON);
+					this.getView().setModel(oAttachmentsModel, "Attachment");
+				}.bind(this),
+
+				error: function (oError) {
+
+					jQuery.sap.log.info("Odata Error occured");
+
+				}.bind(this)
+
+			};
+			oModel.read(contextPath+'/AttachmentSet', mParameters);
 		},
 
 		_bindView: function (sObjectPath) {
@@ -221,7 +256,31 @@ sap.ui.define([
 					});
 				}.bind(this)
 			});
-		}
+		},
+		onChangeFile: function(oEvent) {
+            var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+            home.kpmg.VisaTask.model.FileUploadHelper.beforeUploadFile(oEvent, this, this.sEmployeeId, this.sVisaRequest,
+                resourceBundle);
+        },
+        onUploadComplete: function(oEvent) {
+            //Check if the Upload is success
+            var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+            var parameters = oEvent.getParameter("mParameters");
+            var status = parameters.status;
+            if (status === 201) {
+                // Call Upload success
+                home.kpmg.VisaTask.model.FileUploadHelper.fileUploadSuccess(oEvent, this, resourceBundle);
+            } else {
+                // Call Upload Failure
+            //    visarequest.ZHCM_Visa_Request.model.FileUploadHelper.fileUploadFailure(oEvent, this, resourceBundle);
+                var parser = new DOMParser();
+                var xmlDoc = parser.parseFromString(oEvent.getParameters().files[0].responseRaw,"text/xml");
+                this.showError(xmlDoc.getElementsByTagName("message")[0].innerHTML);
+            }
+ 
+            //reload the attachments
+            this.callValueHelps("/VisaRequestSet(PersonalID='" + this.sEmployeeId + "',VisaID='" + this.sVisaRequest + "')");
+        }
 	});
 
 });

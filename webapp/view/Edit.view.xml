@@ -43,10 +43,12 @@
 		<semantic:content>
 			<Panel class="sapFSemanticPageAlignContent" width="auto" headerText="Attachments(Please upload)">
 				<content>
-					<UploadCollection id="UploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="true" sameFilenameAllowed="true"
-						instantUpload="false" noDataDescription="Drop files or use the &quot;Add&quot; button to keep files ready for upload" change="onChange"
-						fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
-						uploadComplete="onUploadComplete" beforeUploadStarts="onBeforeUploadStarts"/>
+				<UploadCollection id="oUploadCollection" items="{Attachment>/results}" showSeparators="None" maximumFileSize="30" sameFilenameAllowed="true"
+                                multiple="false" change="onChangeFile" fileDeleted="onFileDeleted" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
+                                uploadComplete="onUploadComplete">
+                                <UploadCollectionItem id="oUploadCollectionItem" documentId="{Attachment>AttachmentID}" fileName="{Attachment>Name}"
+                                    mimeType="{Attachment>MimeType}" url="{Attachment>Url}" enableEdit="false" visibleEdit="false"/>
+                            </UploadCollection>
 				</content>
 			</Panel>
 		</semantic:content>
