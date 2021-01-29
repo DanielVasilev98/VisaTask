@@ -88,7 +88,6 @@ sap.ui.define([
 			var visaId = oEvent.getParameter("arguments").VisaID;
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getModel().metadataLoaded().then(function () {
-				debugger;
 				var sObjectPath = this.getModel().createKey("VisaRequestSet", {
 					PersonalID: personalId,
 					VisaID: visaId

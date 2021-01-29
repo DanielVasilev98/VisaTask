@@ -35,11 +35,11 @@ sap.ui.define([
 			var view = this.getView();
 			this.oFileUploadControl = this.getView().byId("oUploadCollection");
 			var context = new sap.ui.model.Context(view.getModel(), "/" + oEvent.getParameter("arguments").contextPath);
-            this.oContext = context;
+			this.oContext = context;
 			var personalId = oEvent.getParameter("arguments").PersonalID;
 			var visaId = oEvent.getParameter("arguments").VisaID;
 			this.sVisaRequest = oEvent.getParameter("arguments").VisaID;
-            this.sEmployeeId = oEvent.getParameter("arguments").PersonalID;
+			this.sEmployeeId = oEvent.getParameter("arguments").PersonalID;
 			this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
 			this.getModel().metadataLoaded().then(function () {
 				var sObjectPath = this.getModel().createKey("VisaRequestSet", {
@@ -75,7 +75,7 @@ sap.ui.define([
 				}.bind(this)
 
 			};
-			oModel.read(contextPath+'/AttachmentSet', mParameters);
+			oModel.read(contextPath + '/AttachmentSet', mParameters);
 		},
 
 		_bindView: function (sObjectPath) {
@@ -257,30 +257,47 @@ sap.ui.define([
 				}.bind(this)
 			});
 		},
-		onChangeFile: function(oEvent) {
-            var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
-            home.kpmg.VisaTask.model.FileUploadHelper.beforeUploadFile(oEvent, this, this.sEmployeeId, this.sVisaRequest,
-                resourceBundle);
-        },
-        onUploadComplete: function(oEvent) {
-            //Check if the Upload is success
-            var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
-            var parameters = oEvent.getParameter("mParameters");
-            var status = parameters.status;
-            if (status === 201) {
-                // Call Upload success
-                home.kpmg.VisaTask.model.FileUploadHelper.fileUploadSuccess(oEvent, this, resourceBundle);
-            } else {
-                // Call Upload Failure
-            //    visarequest.ZHCM_Visa_Request.model.FileUploadHelper.fileUploadFailure(oEvent, this, resourceBundle);
-                var parser = new DOMParser();
-                var xmlDoc = parser.parseFromString(oEvent.getParameters().files[0].responseRaw,"text/xml");
-                this.showError(xmlDoc.getElementsByTagName("message")[0].innerHTML);
-            }
- 
-            //reload the attachments
-            this.callValueHelps("/VisaRequestSet(PersonalID='" + this.sEmployeeId + "',VisaID='" + this.sVisaRequest + "')");
-        }
+		onChangeFile: function (oEvent) {
+			var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+			home.kpmg.VisaTask.model.FileUploadHelper.beforeUploadFile(oEvent, this, this.sEmployeeId, this.sVisaRequest,
+				resourceBundle);
+		},
+		onUploadComplete: function (oEvent) {
+			//Check if the Upload is success
+			var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
+			var parameters = oEvent.getParameter("mParameters");
+			var status = parameters.status;
+			if (status === 201) {
+				// Call Upload success
+				home.kpmg.VisaTask.model.FileUploadHelper.fileUploadSuccess(oEvent, this, resourceBundle);
+			} else {
+				// Call Upload Failure
+				//    visarequest.ZHCM_Visa_Request.model.FileUploadHelper.fileUploadFailure(oEvent, this, resourceBundle);
+				var parser = new DOMParser();
+				var xmlDoc = parser.parseFromString(oEvent.getParameters().files[0].responseRaw, "text/xml");
+				this.showError(xmlDoc.getElementsByTagName("message")[0].innerHTML);
+			}
+
+			//reload the attachments
+			this.callValueHelps("/VisaRequestSet(PersonalID='" + this.sEmployeeId + "',VisaID='" + this.sVisaRequest + "')");
+		},
+		onFileDeleted: function (oEvent) {
+			// var attachmentId = this.getView().byId("oUploadCollection")._oItemForDelete.documentId;
+			// var test = this.getView().byId("oUploadCollection")._oItemForDelete;
+			// var delurl = this.getView().getBindingContext().getPath();
+			// var splited = delurl.split("'");
+			// var oModel = this.getView();
+			home.kpmg.VisaTask.model.FileUploadHelper.deleteUploadedFile(oEvent, this, this.sEmployeeId, this.sVisaRequest)
+			// oModel.remove("/FlightSet('" + Carrid + "')", {
+			// 	method: "DELETE",
+			// 	success: function (data) {
+			// 		alert("success");
+			// 	},
+			// 	error: function (e) {
+			// 		alert("error");
+			// 	}
+			// });
+		}
 	});
 
 });
